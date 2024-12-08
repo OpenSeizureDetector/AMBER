@@ -206,7 +206,7 @@ class PANN:
         dense_output = Dropout(0.1)(dense_output)
         
         
-        prediction = Dense(3, activation='softmax')(GlobalMaxPooling1D()(dense_output))
+        prediction = Dense(config.N_CLASSES, activation='softmax')(GlobalMaxPooling1D()(dense_output))
         model = Model(inputs=input_layers, outputs=prediction)
 
         self.model = model
@@ -343,7 +343,9 @@ class KFoldCrossValidation:
             y_fold_train = self.y_train[train_index]
             X_fold_val = [X[test_index] for X in self.X_train]
             y_fold_val = self.y_train[test_index]
-            self.ts_model.build_model(num_features=2, input_shape=(config.N_TIME_STEPS, 1))
+            print("y_train=",y_train.shape)
+            print("x_fold_val=",len(X_fold_val), "y_fold_val=",y_fold_val.shape)
+            self.ts_model.build_model(num_features=config.N_FEATURES, input_shape=(config.N_TIME_STEPS, 1))
             self.ts_model.compile_model()
             history = self.ts_model.train_model(X_fold_train, y_fold_train, X_fold_val, y_fold_val, epochs=self.epochs, batch_size=self.batch_size)
             test_loss, test_accuracy = self.ts_model.evaluate_model(X_fold_val, y_fold_val)
@@ -442,8 +444,14 @@ segments, labels = data_loader.load_data()
 data_formatter = DataFormatter(config=config)
 X_train_reshaped, X_test_reshaped, y_train, y_test = data_formatter.format_data(segments, labels)
 
+#print("X_train_reshaped=", X_train_reshaped)
+print("y_train=",y_train.shape)
+
 # Reshape y_test correctly
 y_test_reshaped = np.asarray(y_test, dtype=np.float32)
+
+print("y_test_reshaped=",y_test_reshaped.shape)
+
 
 # Initialize model
 ts_model = PANN(row_hidden=config.row_hidden, col_hidden=config.row_hidden, num_classes=config.N_CLASSES)
