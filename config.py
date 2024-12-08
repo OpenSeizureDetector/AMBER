@@ -11,3 +11,4 @@ class config:
     N_FEATURES = 2      # mag,hr,roi_Ratio,output
     step = 100           # window overlap = 50 -10 = 40  (80% overlap)
     N_CLASSES = 3       # class labels
+    k = 3               # kfold splits

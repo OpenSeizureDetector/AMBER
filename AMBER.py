@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import config as config
+from config import config
 import tensorflow as tf
 from scipy import stats
 from sklearn.model_selection import train_test_split, KFold
@@ -29,13 +29,37 @@ class CustomDataLoader:
         self.target_column = target_column
     
     def load_data(self):
+        ''' This version of load_data is designed to work with the csv files produced by the OpenSeizureDatabase nnTraining2 utility
+        '''
         segments = []
         labels = []
-        for i in range(0, self.dataframe.shape[0] - config.N_TIME_STEPS, config.step):  
-            mag = self.dataframe['rawData'].values[i: i + config.N_TIME_STEPS]
-            hr = self.dataframe['hr'].values[i: i + config.N_TIME_STEPS]
+
+        # Find the column numbers of the key locations in the file based on the header provided
+        accStartCol = self.dataframe.columns.get_loc('M001')-1
+        accEndCol = self.dataframe.columns.get_loc('M124')+1
+        hrCol = self.dataframe.columns.get_loc('hr')
+        typeCol = self.dataframe.columns.get_loc('type')
+
+        print(self.dataframe, self.dataframe.shape)
+        #for i in range(0, self.dataframe.shape[0] - config.N_TIME_STEPS, config.step):  
+        # Loop through each 'datapoint' (=5 second sample of data)
+        for i in range(0, self.dataframe.shape[0]):  
+            #mag = self.dataframe['rawData'].values[i: i + config.N_TIME_STEPS]
+            #hr = self.dataframe['hr'].values[i: i + config.N_TIME_STEPS]
+            #hr = [self.dataframe['hr'].values[i]]
+            rowArr = self.dataframe.iloc[i]
+            mag = rowArr.iloc[accStartCol:accEndCol].values.astype(int).tolist()
+            hrVal = int(rowArr.iloc[hrCol])
+            hr = [hrVal for i in range(0,config.N_TIME_STEPS)]
+
+            #print("mag=",mag)
+            #print("hr=",hr)
+
             segment = np.column_stack((mag, hr))
-            label_mode = stats.mode(self.dataframe['label'][i: i + config.N_TIME_STEPS])
+            #print(segment)
+            
+            #label_mode = stats.mode(self.dataframe['label'][i: i + config.N_TIME_STEPS])
+            label_mode = stats.mode(self.dataframe[target_column][i: i + config.N_TIME_STEPS])
             if isinstance(label_mode.mode, np.ndarray):
                 label = label_mode.mode[0]
             else:
@@ -43,7 +67,8 @@ class CustomDataLoader:
             segments.append(segment)
             labels.append(label)
         segments = np.asarray(segments, dtype=np.float32)
-        labels = np.asarray(pd.get_dummies(labels), dtype=np.float32)     
+        labels = np.asarray(pd.get_dummies(labels), dtype=np.float32)    
+        print(segments.shape, labels.shape) 
         return segments, labels
     
 
@@ -389,7 +414,8 @@ def evaluate_model_performance(model, X_test_list, y_test_reshaped):
 # Define your DataFrame and parameter
 mypath = 'Data/Train_Me.csv'
 df = pd.read_csv(mypath)
-target_column = 'label'  # Name of the target column
+#target_column = 'label'  # Name of the target column
+target_column = 'type'  # Name of the target column
 
 # Step 1: Load Data
 data_loader = CustomDataLoader(dataframe=df, time_steps=config.N_TIME_STEPS, step=config.step, target_column=target_column)
