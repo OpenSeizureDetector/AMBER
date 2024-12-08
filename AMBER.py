@@ -55,20 +55,27 @@ class CustomDataLoader:
             #print("mag=",mag)
             #print("hr=",hr)
 
-            segment = np.column_stack((mag, hr))
+            #segment = np.column_stack((mag, hr))
+            # FIXME - find out how to deal with HR values
+            #segment = np.column_stack((mag))
             #print(segment)
             
             #label_mode = stats.mode(self.dataframe['label'][i: i + config.N_TIME_STEPS])
-            label_mode = stats.mode(self.dataframe[target_column][i: i + config.N_TIME_STEPS])
-            if isinstance(label_mode.mode, np.ndarray):
-                label = label_mode.mode[0]
-            else:
-                label = label_mode.mode
-            segments.append(segment)
+            
+            #label_mode = stats.mode(self.dataframe[target_column][i: i + config.N_TIME_STEPS])
+            #if isinstance(label_mode.mode, np.ndarray):
+            #    label = label_mode.mode[0]
+            #else:
+            #    label = label_mode.mode
+            label = self.dataframe[target_column][i]
+            #segments.append(segment)
+            segments.append(mag)
+            #print(label,type(label))
             labels.append(label)
         segments = np.asarray(segments, dtype=np.float32)
-        labels = np.asarray(pd.get_dummies(labels), dtype=np.float32)    
-        print(segments.shape, labels.shape) 
+        #labels = np.asarray(pd.get_dummies(labels), dtype=np.float32)  
+        labels = np.asarray(labels, dtype=np.float32)  
+        print("segments=",segments.shape, "labels=",labels.shape, labels) 
         return segments, labels
     
 

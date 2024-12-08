@@ -4,6 +4,8 @@
 
 <p>
 AMBER (Attention-guided Multi-Branching-pipeline with Enhanced Residual fusion) is an experimental deep learning architecture for biomedical engineering. Designed for one-dimensional, multimodal detection tasks, the architecture addresses the challenges of processing heterogeneous data sources by constructing independent pipelines for each feature modality.
+
+See the paper describing this model at <a href="https://www.techrxiv.org/users/692829/articles/1095532-enhanced-non-eeg-multimodal-seizure-detection-a-real-world-model-for-identifying-generalised-seizures-across-the-ictal-state">https://www.techrxiv.org/users/692829/articles/1095532-enhanced-non-eeg-multimodal-seizure-detection-a-real-world-model-for-identifying-generalised-seizures-across-the-ictal-state</a>
 </p>
   
 </div>
