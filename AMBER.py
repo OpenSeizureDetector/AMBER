@@ -32,7 +32,7 @@ class CustomDataLoader:
         ''' This version of load_data is designed to work with the csv files produced by the OpenSeizureDatabase nnTraining2 utility
         '''
         segments = []
-        labels = []
+        labelsLst = []
 
         # Find the column numbers of the key locations in the file based on the header provided
         accStartCol = self.dataframe.columns.get_loc('M001')-1
@@ -50,7 +50,7 @@ class CustomDataLoader:
             rowArr = self.dataframe.iloc[i]
             mag = rowArr.iloc[accStartCol:accEndCol].values.astype(int).tolist()
             hrVal = int(rowArr.iloc[hrCol])
-            hr = [hrVal for i in range(0,config.N_TIME_STEPS)]
+            hr = [hrVal for i in range(0,accEndCol-accStartCol)]  # We copy the HR value so it is the same for each accelerometer measurement in the row
 
             #print("mag=",mag)
             #print("hr=",hr)
@@ -69,13 +69,23 @@ class CustomDataLoader:
             #    label = label_mode.mode
             label = self.dataframe[target_column][i]
             #segments.append(segment)
-            segments.append(mag)
+            segments.append(np.column_stack((mag,hr)))
             #print(label,type(label))
-            labels.append(label)
+            labelsLst.append(label)
+
+        # segments is the input data [nRows, nSamp, nFeatures], where:
+        #    nRows is the number of datapoints in the input file,
+        #    nSamp is the number of accelerometer samples per data point (125 for data sampled at 25 Hz for 5 seconds), and
+        #    nFeatures is the number of features in the data - in our case 2, acceleration magnitude and heart rate.
         segments = np.asarray(segments, dtype=np.float32)
-        #labels = np.asarray(pd.get_dummies(labels), dtype=np.float32)  
-        labels = np.asarray(labels, dtype=np.float32)  
-        print("segments=",segments.shape, "labels=",labels.shape, labels) 
+
+        # Convert the single column list of labels into one column per label value, where the column value is true or false - returns a pandas dataframe
+        labelsDf = pd.get_dummies(labelsLst)
+        print("labels df=", labelsDf)
+        # Convert the dataframe into an array
+        labels = np.asarray(labelsDf, dtype=np.float32)  
+        #labels = np.asarray(labels, dtype=np.float32)  
+        print("segments=",segments.shape, "\nlabels=",labels.shape) 
         return segments, labels
     
 
