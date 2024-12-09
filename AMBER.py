@@ -8,6 +8,8 @@ from sklearn.metrics import classification_report, accuracy_score, f1_score, coh
 from keras.optimizers import RMSprop, Adam, Adamax
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.losses import categorical_crossentropy
+from tensorflow import keras
+from tensorflow.keras import saving
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import LSTM, Dense, Dropout, MaxPooling1D, Input, Bidirectional, Conv1D, BatchNormalization, Concatenate, Add, GlobalMaxPooling1D, Attention, Activation, Multiply, Reshape, Flatten, Layer, Permute, MultiHeadAttention
@@ -107,6 +109,8 @@ class DataFormatter:
             reshaped_segments[feature_name] = segments[:, :, i].reshape(-1, num_time_steps, 1)
         return reshaped_segments
 
+
+@saving.register_keras_serializable()
 class FusionLayer(Layer):
     def __init__(self, **kwargs):
         super(FusionLayer, self).__init__(**kwargs)
@@ -117,7 +121,9 @@ class FusionLayer(Layer):
     def get_config(self):
         config = super(FusionLayer, self).get_config()
         return config
-    
+
+
+@saving.register_keras_serializable()
 class EnhancedFusionLayer(Layer):
     def __init__(self, num_heads, key_dim, **kwargs):
         super(EnhancedFusionLayer, self).__init__(**kwargs)
@@ -139,11 +145,30 @@ class EnhancedFusionLayer(Layer):
 
 # PANN class (Parallel Attention Network)
 class PANN:
-    def __init__(self, row_hidden, col_hidden, num_classes):
+    def __init__(self, row_hidden, col_hidden, num_classes, modelFname="pann.keras"):
         self.row_hidden = row_hidden
         self.col_hidden = col_hidden
         self.num_classes = num_classes  # Add num_classes attribute
         self.model = None
+        self.modelFname = modelFname
+
+        if (os.path.exists(self.modelFname)):
+            self.load_model()
+
+    def load_model(self):
+        if (os.path.exists(self.modelFname)):
+            print("PANN: oading existing model %s as starting point for training" % self.modelFname)
+            self.model = keras.models.load_model(self.modelFname)
+        else:
+            print("PANN: ****ERROR - Model File %s does not exist ***" % self.modelFname)
+            exit(-1)
+    
+    def save_model(self):
+        if (os.path.exists(self.modelFname)):
+            print("saving backup copy of model file")
+            shutil.copy(self.modelFname, "%s.bak" % self.modelFname)
+        print("Saving model to file %s" % self.modelFname)
+        self.model.save(self.modelFname)
 
 
     def conv_block(self, in_layer, filters, kernel_size):
@@ -226,7 +251,19 @@ class PANN:
             #print("X_train", X_train.shape)
         #for X_val in X_val_list:
            #print("X_val", X_val.shape)
-        history = self.model.fit(X_train_list, y_train, epochs=config.epochs, batch_size=config.batch_size, validation_data=(X_val_list, y_val), verbose=1)
+
+        callbacks = [
+            keras.callbacks.ModelCheckpoint(
+                self.modelFname, save_best_only=True, monitor="val_loss"
+            )
+        ]
+
+
+        history = self.model.fit(X_train_list, y_train, 
+                                 epochs=config.epochs, 
+                                 batch_size=config.batch_size, 
+                                 callbacks=callbacks,
+                                 validation_data=(X_val_list, y_val), verbose=1)
         return history
 
     def evaluate_model(self, X_test, y_test, batch_size=config.batch_size):
@@ -453,8 +490,7 @@ y_test_reshaped = np.asarray(y_test, dtype=np.float32)
 print("y_test_reshaped=",y_test_reshaped.shape)
 
 
-# Initialize model
-ts_model = PANN(row_hidden=config.row_hidden, col_hidden=config.row_hidden, num_classes=config.N_CLASSES)
+ts_model = PANN(row_hidden=config.row_hidden, col_hidden=config.row_hidden, num_classes=config.N_CLASSES, modelFname=config.model_file_name)
 
 # Create an instance of KFoldCrossValidation
 kfold_cv = KFoldCrossValidation(ts_model, [X_train_reshaped['Feature_1'], X_train_reshaped['Feature_2']], y_train)

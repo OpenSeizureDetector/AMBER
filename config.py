@@ -3,6 +3,7 @@ class config:
     # FIXME:  we have num_classes and N_CLASSES???
 
     #Globals
+    model_file_name = "amber.keras"
     batch_size = 8
     num_classes = 2  # classes, seizure/no seizure
     epochs = 25      # Epoch iterations
