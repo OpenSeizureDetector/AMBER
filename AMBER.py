@@ -142,6 +142,9 @@ class EnhancedFusionLayer(Layer):
         })
         return config
 
+    def build(self, input_shape):
+        ''' Implement a build method to avoid a keras warning'''
+        super().build(input_shape)
 
 # PANN class (Parallel Attention Network)
 class PANN:
