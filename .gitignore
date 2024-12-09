@@ -1,3 +1,6 @@
+plots
+amber.keras
+*.csv
 __pycache__
 *~
 *#
