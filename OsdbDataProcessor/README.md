@@ -1,6 +1,6 @@
 ## 📁 **OSDB Data Processor Component** 
 
-The **OSDB Data Processor** component is designed to process raw JSON data from the **OpenSeizure Database (OSDB)**. The component includes several modular classes located in the `OsdbDataProcessor` folder, which form a data processing pipeline. The pipeline loads raw **JSON**, reshapes the data for timeseries analysis, runs an interpolator and outputs a dataframe that can be integrated with the **AMBER Model**. 
+The **OSDB Data Processor** component is designed to process raw JSON data from the **OpenSeizure Database (OSDB)**. The component includes several modular classes located in the `OsdbDataProcessor` folder, which form a data processing pipeline. The pipeline loads raw **JSON** data, reshapes the data for timeseries analysis, runs an interpolator over the heart rate attribute and outputs a dataframe that can be integrated with the **AMBER Model**. 
 
 ### 📂 **OsdbDataProcessor Overview**
 
