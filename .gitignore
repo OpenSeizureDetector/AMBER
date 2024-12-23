@@ -1,0 +1,16 @@
+# Ignore plots folder
+plots/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore model files (if not needed)
+*.h5
+*.keras
+
+# Ignore temporary files (e.g., editor backup files)
+*~
