@@ -2,7 +2,7 @@ from config import Config as config
 from OsdbDataProcessor.osdb_data_label_generator import OsdbDataLabelGenerator
 from OsdbDataProcessor.osdb_data_reshaper import OsdbDataReshaper
 from OsdbDataProcessor.osdb_interpolator import OsdbInterpolator
-from OsdbDataProcessor.osdb_data_loader import OsdbDataLoader
+#from OsdbDataProcessor.osdb_data_loader import OsdbDataLoader
 
 if __name__ == "__main__":
     

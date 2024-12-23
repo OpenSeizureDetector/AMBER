@@ -32,22 +32,19 @@ class OsdbDataLoader:
 
                 # FFT calculation for rawData
                 fft_result = self.calculate_fft(rawData)
-                #Uncomment the sensor data that you want to load
+
                 flattened_data.append({
                     'eventId': event_id,
                     'userId': user_id,
                     'hr': hr,
-                    #'o2Sat': o2Sat,
+                    'o2Sat': o2Sat,
                     'rawData': rawData,
-                    #'rawData3D': rawData3D,
+                    'rawData3D': rawData3D,
                     'FFT': fft_result  # Adding FFT column directly
                 })
 
         # Create DataFrame from the flattened data
         self.df_sensordata = pd.DataFrame(flattened_data)
-
-        # Apply zero padding to the FFT column to make sure all rows have 125 FFT values
-        self.df_sensordata['FFT'] = self.df_sensordata['FFT'].apply(lambda fft: np.pad(fft, (0, 125 - len(fft)), 'constant', constant_values=0) if len(fft) < 125 else fft)
 
     def calculate_fft(self, raw_data):
         if not raw_data:
@@ -56,10 +53,12 @@ class OsdbDataLoader:
         # Convert raw_data to numpy array
         raw_data = np.array(raw_data)
         # Perform FFT, remove DC component, and return magnitudes
-        raw_data = raw_data - np.mean(raw_data)  # Remove DC component
+        raw_data = raw_data - np.mean(raw_data)
         fft_result = np.fft.fft(raw_data)
         fft_magnitude = np.abs(fft_result)
         # Isolate positive frequencies
         positive_fft_magnitude = fft_magnitude[:len(fft_magnitude) // 2]
         
         return positive_fft_magnitude.tolist()  # Return as a list
+
+

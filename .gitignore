@@ -1,9 +1,10 @@
 # Ignore plots folder
 plots/
 
-# Ignore Python bytecode files
+# Ignore Python bytecode
 __pycache__/
 *.pyc
+*.pyo
 
 # Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
