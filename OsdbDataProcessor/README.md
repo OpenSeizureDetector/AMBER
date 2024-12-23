@@ -49,7 +49,7 @@ print(dataset_df.sample())#print sample row
 ```
 ---
 
-2. **Open Root from Integrated Terminal**:
+2. **How to Run from (Root)**:
 ```bash
 path/AMBER/AMBER main python.py
 ```
