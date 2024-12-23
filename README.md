@@ -1,38 +1,117 @@
-# AMBER MODEL
-Author: Dr Jamie Pordoy
+<div align="center">
 
+<<<<<<< HEAD
 ---
+=======
+  <img src="Images/3.png" alt="logo" width="200" height="auto" />
 
-## Introduction
-AMBER (Attention-guided Multi-Branching-pipeline with Enhanced Residual fusion) is a deep learning architecture designed for multimodal seizure detection tasks. It addresses the challenges of processing heterogeneous data sources by constructing dedicated branches for each feature modality. 
+<p>
+AMBER (Attention-guided Multi-Branching-pipeline with Enhanced Residual fusion) is an experimental deep learning architecture for biomedical engineering. Designed for one-dimensional, multimodal detection tasks, the architecture addresses the challenges of processing heterogeneous data sources by constructing independent pipelines for each feature modality
+</p>
+  
+</div>
+>>>>>>> Amber_beta_1.0.1
 
-We extend our gratitude to the open-source community, whose contributions have significantly aided the development and dissemination of our work. While the coding style in this repository is still in its early stages, we welcome and encourage contributions to help refactor and improve its efficiency and readability. We appreciate the collective effort that makes advancements in multimodal detection and classification possible.)
+<br />
 
----
-![Federated Transfer Learning Framework architecture](Images/AMBER.png)
----
+# :notebook_with_decorative_cover: Table of Contents
+
+- [About the Project](#star2-about-the-project)  
+  * [Tech Stack](#space_invader-tech-stack)
+- [Getting Started](#toolbox-getting-started)
+  * [Prerequisites](#bangbang-prerequisites)
+  * [Installation](#gear-installation)
+  * [Run Locally](#running-run-locally)
+  * [Deployment](#triangular_flag_on_post-deployment)
+- [Usage](#eyes-usage)
+- [Contributing](#wave-contributing)
+- [FAQ](#grey_question-faq)
+- [License](#warning-license)
+- [Contact](#handshake-contact)
+- [Acknowledgements](#gem-acknowledgements)
+
+  
+
+<!-- About the Project -->
+## :star2: About the Project
 
 
-## Network Architecture
+<!-- Screenshots -->
+### :camera: Screenshots
+
+<div align="center"> 
+  <img src="Images/Branches_2.png" alt="screenshot" />
+</div>
+
+# Project Title
+
+## Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed on your system:
+
+- Python
+- `pip` (Python package installer)
+
+### Installation
+
+# Navigate to the Project Directory
+```bash
+ cd your-repo
+```
+
+# Clone Repository
+```bash
+git clone https://github.com/jpordoy/AMBER.git
+```
 
 
-Our proposed architecture comprises the following four layers: the manifold reduction layer, the common embedded space, the tangent projection layer, and the federated layer. The function of each layer is detailed below:
+<!-- Prerequisites -->
+### :bangbang: Prerequisites
 
-1. **Manifold Reduction Layer**: Spatial covariance matrices are consistently presumed to inhabit high-dimensional Symmetric Positive Definite (SPD) manifolds. This layer acts as a linear map from the high-dimensional SPD manifold to the low-dimensional counterpart, with undefined weights reserved for learning.
+This project uses Yarn as package manager
 
-2. **Common Embedded Space**: The common space is the low-dimensional SPD manifold, whose elements are diminished from each high-dimensional SPD manifold. It is specifically designed for the transfer learning setting.
+```bash
+ npm install --global yarn
+```
 
-3. **Tangent Projection Layer**: The function of this layer is to project the matrices on SPD manifolds to its tangent space, which is a local linear approximation of the curved space.
+<!-- Installation -->
+### :gear: Installation
 
-4. **Federated Layer**: Deep neural networks are implemented in this layer. For the transfer learning setting, the parameters of neural networks are updated by federated aggregation.
+  
+<!-- Running Tests -->
+### :test_tube: Running Tests
 
----
-![Federated Transfer Learning Framework architecture](https://github.com/jpordoy/AMBER/blob/master/Images/model_plot.png)
+To run tests, run the following command
 
+```bash
+  yarn test test
+```
+
+<!-- Run Locally -->
+### :running: Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Louis3797/awesome-readme-template.git
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  yarn install
+```
 
 ### How To Run The Code
-Please put your training data and labels into a directory "raw_data/" in this project.
-The package `mne` is adopted for EEG data pro-processing. To generate the required data as SPDNet input, please refer to the following example code: 
+Please put your training data as a csv file in the "Data/" of this project.
 
 ```python        
 import pandas as pd
@@ -79,10 +158,62 @@ print("Cohen's Kappa:", evaluation_results["cohen_kappa"])
 
 ```
 
+<<<<<<< HEAD
 ### Model training
 
 For subject-adaptive analysis, run `SPDNet_Federated_Transfer_Learning.py `
 
 For subject-specific analysis, run `SPDNet_Local_Learning.py`
+=======
+
+
+
+<!-- Contributing -->
+## :wave: Contributing
+
+<a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
+</a>
+
+
+Contributions are always welcome!
+
+See `contributing.md` for ways to get started.
+
+
+<!-- Code of Conduct -->
+### :scroll: Code of Conduct
+
+Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
+
+<!-- FAQ -->
+## :grey_question: FAQ
+
+- Question 1
+
+  + Answer 1
+
+- Question 2
+
+  + Answer 2
+
+
+<!-- License -->
+## :warning: License
+
+Distributed under the no License. See LICENSE.txt for more information.
+
+
+<!-- Contact -->
+## :handshake: Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+
+Project Link: [https://github.com/Louis3797/awesome-readme-template](https://github.com/Louis3797/awesome-readme-template)
+
+
+<!-- Acknowledgments -->
+## :gem: Acknowledgements
+>>>>>>> Amber_beta_1.0.1
 
 
