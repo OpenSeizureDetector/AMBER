@@ -16,7 +16,6 @@ env/
 
 # Ignore dataset and other large files
 Data/ipd_dataset.csv
-Data/Readme.txt
 
 # Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
