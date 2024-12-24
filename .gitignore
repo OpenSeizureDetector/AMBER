@@ -1,10 +1,22 @@
-# Ignore plots folder
-# plots/
-
-# Ignore Python bytecode
+# Ignore Python bytecode files
 __pycache__/
 *.pyc
-*.pyo
+
+# Ignore IDE/editor settings
+.vscode/
+.idea/
+
+# Ignore environment-related files
+venv/
+env/
+*.env
+
+# Ignore log files
+*.log
+
+# Ignore dataset and other large files
+Data/ipd_dataset.csv
+Data/Readme.txt
 
 # Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
@@ -15,6 +27,3 @@ __pycache__/
 
 # Ignore temporary files (e.g., editor backup files)
 *~
-
-
-

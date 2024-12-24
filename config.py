@@ -4,7 +4,7 @@ class Config:
      #Globals
     batch_size = 128
     num_classes = 2  # classes, seizure/no seizure
-    epochs = 10     # Epoch iterations
+    epochs = 1    # Epoch iterations
     time_step_length = 5
     row_hidden = 128  # hidden neurons in conv layers
     col_hidden = 128   # hidden neurons in the Bi-LSTM layers

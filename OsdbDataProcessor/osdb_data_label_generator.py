@@ -116,10 +116,3 @@ class OsdbDataLabelGenerator:
         self.df_sensordata.reset_index(drop=True, inplace=True)
 
         return self.df_sensordata
-
-
-# Example usage
-#file_path = 'Data/osdb_3min_allSeizures.json'  # Replace with your JSON file path
-#processor = OsdbLabelGenerator(file_path)
-#df_result = processor.process_data()
-#df_result.head(3)
