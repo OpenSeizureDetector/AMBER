@@ -1,8 +1,6 @@
 pandas
-nummpy
+numpy
 matplotlib
 seaborn
-json
 tensorflow
 seaborn
-os
