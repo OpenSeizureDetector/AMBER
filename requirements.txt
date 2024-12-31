@@ -1,8 +1,7 @@
 pandas
-nummpy
+numpy
 matplotlib
 seaborn
-json
 tensorflow
-seaborn
-os
+scipy
+scikit-learn
